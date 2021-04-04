@@ -1,0 +1,43 @@
+Транзакций при обновление данных в таблицах
+
+begin transaction
+	begin try
+		update Products
+		set list_price = '459.99ff'
+		where product_id = 1;
+	end try
+	begin catch
+		print 'Error in update date in Table Product;';
+	end catch
+commit;
+-----------------------------------------
+begin transaction
+		update Products
+		set list_price = '959.99'
+		where product_name= 'Trek Condiut';
+		save transaction updateCondiut
+		
+		update Products
+		set list_price = '600.99'
+		where product_name = 'Electra Moto 1 - 2016';
+		save transaction updateElectraMoto
+
+		delete from Products
+		where product_name = 'Trek Checkpoint ALR Frameset - 2019';
+
+rollback transaction updateCondiut;
+commit;
+-----------------------------------------
+begin transaction
+	begin try
+		update Sales_customers
+		set phone = '870052654366'
+		where first_name = 'Charolette'
+	end try
+	begin catch
+		print 'Error in update date in Table Customers'
+	end catch
+commit;
+
+-----------------------------------------
+

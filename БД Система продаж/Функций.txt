@@ -1,0 +1,26 @@
+--Функция для вычисление среднего суммы продаж в месяце. Функция принимает год и месяц.
+
+CREATE function AverageSumOrdersInMonth (@year as int, @month as int) returns float as
+begin
+	declare @result float;
+		
+		set @result = (select avg(list_price*quantity*discount) from Sales_order_items s_i
+		join Sales_orders s_o on s_i.order_id=s_o.order_id
+		where year(order_date) = @year and 
+			  month(order_date) = @month and s_o.order_status = 4);
+		return @result;
+end;
+
+----------------------------------------------------
+--Функция для вычисление количество заказов в месяце. Функция принимает год, месяц и статус заказа которых хотим вычислить.
+
+CREATE function AmountOrdersInMonth  (@year as int, @month as int,@status as int) returns int as
+begin	
+		declare @result int;
+		
+		set @result = (select count(*) from Sales_orders
+		where year(order_date) = @year and 
+			  month(order_date) = @month and 
+			  order_status = @status)
+		return @result;
+end

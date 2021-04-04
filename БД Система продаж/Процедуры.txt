@@ -1,0 +1,19 @@
+--Процедура для быстрого нахождение наличие продукта
+
+CREATE procedure findProduct @product_name nvarchar(max)
+as
+	begin
+		select *from Products
+		where product_name like('%'+ @product_name+'%');
+	end;
+------------------------------------------------------------
+--Процедура для Проверки запас продуктов
+
+CREATE procedure StockOfProduct @begin_amount int, @end_amount int
+as
+	begin
+		select product_name,pr_s.quantity from Products pr
+		join Production_stocks pr_s on pr.product_id = pr_s.product_id 
+		where pr_s.quantity > @begin_amount and pr_s.quantity < @end_amount;
+	end;
+

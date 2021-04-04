@@ -1,0 +1,20 @@
+-- Представление для вывода информаций о заказах клиентов
+
+create view customer_orders as
+select first_name,last_name,street,pr.product_name from Customers cm
+join Sales_orders s_o on cm.customer_id= s_o.customer_id
+join Order_items o_i on s_o.order_id = o_i.order_id
+join Products pr on o_i.product_id = pr.product_id;
+
+select * from customer_order;
+
+-----------------------------------------------------
+-- Представление для вывода информации о продуктах, также их остаток и цены
+
+create view products_list as 
+select pr.product_name,cat.category_name,br.brand_name,list_price,pr_st.quantity from Products pr
+join Categories cat on pr.category_id = cat.category_id
+join Brands br on pr.brand_id = br.brand_id
+join Production_stocks pr_st on pr_st.product_id=pr.product_id;
+
+select * from products_list;
